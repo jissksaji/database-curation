@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ITS2 database curation parameters",
+  "description": "Parameters for the ITS2 reference-database curation workflow.",
+  "type": "object",
+  "properties": {
+    "custom_db": {
+      "type": "string",
+      "format": "file-path",
+      "description": "Required custom ITS2 reference database (.fasta, .fna, or .txt), emitted with the stable reference ID 'custom'."
+    },
+    "custom_db_filter_pattern_exclude": {
+      "type": "string",
+      "default": "synthetic|artificial|construct|recombinant|transgenic|unverified|low[ ._-]?quality|contaminant|chimeric|misidentified|environmental",
+      "description": "Case-insensitive regular expression. Matching FASTA headers are excluded."
+    },
+    "custom_db_include_pattern": {
+      "type": "string",
+      "default": "internal transcribed spacer 2|ITS2",
+      "description": "Case-insensitive regular expression. Only matching headers are kept in the final cleaned FASTA."
+    },
+    "custom_db_min_length": {
+      "type": "integer",
+      "default": 100,
+      "minimum": 0,
+      "description": "Minimum sequence length to keep."
+    },
+    "custom_db_max_length": {
+      "type": "integer",
+      "default": -1,
+      "minimum": -1,
+      "description": "Maximum sequence length for the final cleaned FASTA. Set to -1 for no maximum."
+    },
+    "custom_db_max_consecutive_ns": {
+      "type": "integer",
+      "default": 2,
+      "minimum": 0,
+      "description": "Exclude a sequence when it contains a run of more than this many consecutive N bases."
+    },
+    "fungal_screening_db": {
+      "type": "string",
+      "format": "file-path",
+      "default": "/home/saj/itsdb/unite_fasta/sh_general_release_dynamic_19.02.2025.fasta",
+      "description": "UNITE fungal FASTA database used by VSEARCH."
+    },
+    "fungal_screening_identity": {
+      "type": "number",
+      "default": 0.8,
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Minimum sequence identity required for a fungal match."
+    },
+    "fungal_screening_query_cov": {
+      "type": "number",
+      "default": 0.6,
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Minimum fraction of the query sequence covered by a fungal match."
+    },
+    "fungal_screening_mincols": {
+      "type": "integer",
+      "default": 80,
+      "minimum": 1,
+      "description": "Minimum number of aligned columns required for a fungal match."
+    },
+    "dereplication": {
+      "type": "string",
+      "default": "species",
+      "enum": [
+        "species",
+        "full_length"
+      ],
+      "description": "Dereplicate exact sequences within each species or across the complete FASTA."
+    },
+    "itsx": {
+      "type": "string",
+      "default": "T",
+      "pattern": "^\\s*(?:[Tt]|[Ff]|[Tt]\\s*,\\s*[Ff]|[Ff]\\s*,\\s*[Tt])\\s*$",
+      "description": "ITSx profile selection. T runs plants only. Any value containing F runs plants first and fungi second."
+    },
+    "outdir": {
+      "type": "string",
+      "format": "directory-path",
+      "default": "results",
+      "description": "Directory for curated database outputs."
+    },
+    "database_version": {
+      "type": "string",
+      "default": "0.1.0",
+      "pattern": "^(?!\\.\\.?$)[^/\\\\]+$",
+      "description": "Version assigned to the curated database release."
+    },
+    "reference_base": {
+      "type": "string",
+      "format": "directory-path",
+      "description": "Base directory containing NCBI taxonomy references under <reference_base>/database_curation/<reference_version>/new_taxdump. Use it alone to install references or with --custom_db during curation."
+    },
+    "reference_version": {
+      "type": "string",
+      "default": "1.1",
+      "description": "Version directory used for installed database_curation reference files."
+    }
+  }
+}

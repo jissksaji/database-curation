@@ -1,0 +1,6 @@
+name: helper-gunzip
+channels:
+  - conda-forge
+dependencies:
+  - gzip
+  - unzip

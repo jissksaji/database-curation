@@ -1,0 +1,55 @@
+# Nextflow runtime files
+.nextflow/
+.nextflow.log*
+.nextflow.pid
+work/
+results/
+
+# Nextflow reports created in the project directory
+timeline.html
+report.html
+trace.txt
+dag.dot
+dag.svg
+
+# Test caches
+.nf-test/
+.nf-test.log
+
+# Local environments
+.pixi/
+.conda/
+.venv/
+venv/
+env/
+myenv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Downloaded container images
+*.sif
+*.img
+
+# Local secrets and machine-specific settings
+.env
+.env.*
+!.env.example
+
+# Editors
+.idea/
+.vscode/*
+!.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp

@@ -1,0 +1,5 @@
+name: its2-curation-module
+channels:
+  - conda-forge
+  - bioconda
+dependencies: []

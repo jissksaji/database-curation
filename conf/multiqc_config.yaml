@@ -1,0 +1,11 @@
+title: "ITS2 database curation report"
+subtitle: "Quality-control summary for the ITS2 reference database build"
+skip_versions_section: true
+report_comment: >
+  This report is generated from the quality-control outputs produced during ITS2
+  database curation.
+top_modules:
+  - general_stats
+report_section_order:
+  software_versions:
+    order: -1001

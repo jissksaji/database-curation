@@ -1,0 +1,7 @@
+name: build-db-taxids
+channels:
+  - conda-forge
+dependencies:
+  - coreutils
+  - gawk
+  - grep

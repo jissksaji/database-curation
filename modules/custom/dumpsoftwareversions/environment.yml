@@ -1,0 +1,7 @@
+name: custom-dumpsoftwareversions
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - pyyaml=6.0

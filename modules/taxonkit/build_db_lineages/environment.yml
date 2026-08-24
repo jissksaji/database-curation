@@ -1,0 +1,6 @@
+name: build-db-lineages
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - taxonkit
