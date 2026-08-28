@@ -3,8 +3,7 @@ process DEREPLICATE_FULL_LENGTH {
     tag "${meta.id}"
     label 'medium_parallel'
 
-    // Reuse the VSEARCH environment already used by fungal screening.
-    conda "${moduleDir}/../fungal_screening/environment.yml"
+    conda "${moduleDir}/../environment.yml"
 
     input:
     tuple val(meta), path(fasta)
@@ -21,6 +20,7 @@ process DEREPLICATE_FULL_LENGTH {
     vsearch \
         --derep_fulllength "${fasta}" \
         --output "${prefix}.derep.fasta" \
+        --sizein \
         --sizeout \
         --notrunclabels \
         --threads ${task.cpus}

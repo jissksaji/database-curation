@@ -51,5 +51,6 @@ __pycache__/
 Thumbs.db
 
 # Temporary files
+temp/
 *.tmp
 *.temp

@@ -2,9 +2,14 @@ BEGIN {
     FS = "\t"
 }
 
-# Read the lineage table first and save each complete output header.
+# Read the lineage table first and build a whitespace-free FASTA identifier.
+# ITSx preserves the complete identifier, so taxonomy remains attached.
 FILENAME == ARGV[1] {
-    lineage_header[$1] = $0
+    accession = $1
+    taxid = $2
+    lineage = $3
+    gsub(/[[:space:]]+/, "_", lineage)
+    lineage_header[accession] = accession ";taxid=" taxid ";" lineage
     next
 }
 

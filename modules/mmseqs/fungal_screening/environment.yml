@@ -1,0 +1,7 @@
+name: mmseqs-fungal-screening
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - mmseqs2=18.8cc5c
+  - seqkit=2.13.0

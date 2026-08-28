@@ -26,8 +26,8 @@ process BUILD_DB_LINEAGES {
         "${accession_taxid}" \
         > "${prefix}.lineages.tsv"
 
-    # Join each lineage back to its FASTA sequence.
-    # The new header is: >accession<TAB>taxid<TAB>lineage
+    # Join each lineage back to its FASTA sequence. Taxonomy is kept inside a
+    # whitespace-free identifier so ITSx preserves the complete header.
     awk -f "${moduleDir}/join_lineages.awk" \
         "${prefix}.lineages.tsv" \
         "${fasta}" \

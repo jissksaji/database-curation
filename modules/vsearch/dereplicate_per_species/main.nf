@@ -1,45 +1,43 @@
 process DEREPLICATE_PER_SPECIES {
 
     tag "${meta.id}"
-    label 'medium_parallel'
+    label 'medium_serial'
 
-    // Reuse the VSEARCH environment already used by fungal screening.
-    conda "${moduleDir}/../fungal_screening/environment.yml"
+    conda "${moduleDir}/../environment.yml"
 
     input:
     tuple val(meta), path(fasta)
 
     output:
-    tuple val(meta), path("*.species_derep.fasta"), emit: fasta
+    tuple val(meta), path("*.taxon_derep.fasta"), emit: fasta
     path "versions.yml", emit: versions
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir species_fastas
+    mkdir taxon_fastas
 
-    # Make one FASTA file for every s: species in the header.
+    # Put records with the same species in one FASTA. If species is missing,
+    # put records with the same genus in one FASTA instead.
     awk \
-        -v output_dir="species_fastas" \
-        -f "${moduleDir}/split_by_species.awk" \
+        -v output_dir="taxon_fastas" \
+        -f "${moduleDir}/../split_by_taxon.awk" \
         "${fasta}"
 
-    # Dereplicate each species and add it to the final FASTA.
-    touch "${prefix}.species_derep.fasta"
+    # Dereplicate every species/genus FASTA separately, then combine them.
+    touch "${prefix}.taxon_derep.fasta"
 
-    for species_fasta in species_fastas/*.fasta; do
-        [[ -e "\${species_fasta}" ]] || continue
+    for taxon_fasta in taxon_fastas/*.fasta; do
+        [[ -e "\${taxon_fasta}" ]] || continue
 
         vsearch \
-            --derep_fulllength "\${species_fasta}" \
-            --output "\${species_fasta}.derep.fasta" \
+            --derep_fulllength "\${taxon_fasta}" \
+            --output "\${taxon_fasta}.derep.fasta" \
             --sizeout \
-            --notrunclabels \
-            --threads ${task.cpus}
+            --notrunclabels
 
-        cat "\${species_fasta}.derep.fasta" \
-            >> "${prefix}.species_derep.fasta"
+        cat "\${taxon_fasta}.derep.fasta" >> "${prefix}.taxon_derep.fasta"
     done
 
     cat <<-END_VERSIONS > versions.yml
